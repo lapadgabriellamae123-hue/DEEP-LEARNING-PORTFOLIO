@@ -25,7 +25,7 @@ bibtex_bibfiles:
 
 # Information about where the book exists on the web
 repository:
-  url: https://lapadgabriellamae123-hue.github.io/DEEP-LEARNING-PORTFOLIO/
+  url: https://github.com/lapadgabriellamae123-hue/DEEP-LEARNING-PORTFOLIO
   branch: main
 
 # Add GitHub buttons to your book
@@ -34,3 +34,5 @@ html:
   use_repository_button: true
   use_edit_page_button: false
   extra_navbar: "Built with Jupyter Book"
+
+exclude_patterns: [_build, '.venv', '**.ipynb_checkpoints']

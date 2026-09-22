@@ -1,5 +1,5 @@
 # Core
-jupyter-book
+jupyter-book<2
 ghp-import
 
 # Needed if you ever re-run the notebooks (execute_notebooks: 'off' in _config.yml
