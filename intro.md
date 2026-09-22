@@ -38,22 +38,17 @@ PyTorch models:
 | Lab | Topic |
 |---|---|
 | [Lab 2](notebooks/lab2.ipynb) | Manual forward pass through a small neural network and computing the error, by hand and in NumPy |
-
 | [Lab 3](notebooks/lab3.ipynb) | Manual forward **and** backward propagation (backprop from scratch) with a ReLU network |
-
 | [Lab 4](notebooks/lab4.ipynb) | Training a linear regression model end-to-end in PyTorch (`MSELoss`, `SGD`, mini-batches) |
-
 | [Lab 5](notebooks/lab5.ipynb) | Core PyTorch tensor operations — reshaping, dtypes, indexing, matrix multiplication |
-
 | [Lab 6](notebooks/lab6.ipynb) | Converting a CNN architecture diagram into a working PyTorch `nn.Module` |
 
 More projects will be added here as the semester progresses.
 
 ## Get in Touch
 
-- **GitHub:** [github.com/YOUR-USERNAME](https://github.com/YOUR-USERNAME)
-- **LinkedIn:** [Your LinkedIn URL]
-- **Email:** [your.email@example.com]
+- **GitHub:** https://github.com/lapadgabriellamae123-hue
+- **Email:** lapad.gabriellamae123@gmail.com
 
 ---
 *This portfolio is built with [Jupyter Book](https://jupyterbook.org/) and published via GitHub Pages. It will be continuously updated throughout DS Elective 4.*
