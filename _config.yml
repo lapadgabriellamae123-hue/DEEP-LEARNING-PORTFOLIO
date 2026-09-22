@@ -2,7 +2,7 @@
 # Learn more at https://jupyterbook.org/customize/config.html
 
 title: My Data Science Portfolio
-author: Your Name Here
+author: Gabriella Mae Lapad
 logo: ""
 
 # Force re-execution of notebooks on each build?
@@ -25,7 +25,7 @@ bibtex_bibfiles:
 
 # Information about where the book exists on the web
 repository:
-  url: https://github.com/YOUR-USERNAME/ds-portfolio  # <-- update this
+  url: https://lapadgabriellamae123-hue.github.io/DEEP-LEARNING-PORTFOLIO/
   branch: main
 
 # Add GitHub buttons to your book
