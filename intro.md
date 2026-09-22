@@ -2,19 +2,20 @@
 
 ## About Me
 
-**Name:** [Your Full Name]
-**Program / Year Level:** [e.g., BS Data Science, 3rd Year]
-**School:** [Your School / University]
+**Name:** Gabriella Mae Lapad
+**Program / Year Level:** BS Data Science, 4th Year
+**School:**  University of Science and Technology of Southern Philippines (USTP)
 
-[Write a short 2-4 sentence introduction about yourself here — who you are,
-what drew you to data science, and what you hope to build or learn.]
+Hi! I’m Gabriella Mae Lapad, a BS Data Science student at the University of Science and Technology of Southern Philippines (USTP). I enjoy exploring technology, creating things, and learning how different tools can be used to turn ideas into something useful and meaningful. This portfolio is a collection of my learning journey, projects, and experiences as I continue discovering what I can create and achieve through technology.
 
 ## My Data Science Interests
 
-- [e.g., Deep learning & neural networks]
-- [e.g., Computer vision]
-- [e.g., Natural language processing]
-- [Add more interests as you discover them throughout the course]
+-  🌐 Web Development & Data-Driven Applications
+-  🤖 Machine Learning & Artificial Intelligence
+-  📊 Data Visualization & Exploratory Data Analysis
+-  🧠 Deep Learning & Neural Networks
+-  💬 Natural Language Processing
+-  🚀 Building Interactive and User-Friendly Data Science Projects
 
 ## Skills & Tools
 
