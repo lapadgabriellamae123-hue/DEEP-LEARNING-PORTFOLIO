@@ -1,0 +1,13 @@
+format: jb-book
+root: intro
+chapters:
+  - file: notebooks/lab2
+    title: Lab 2 - Forward Pass and Error
+  - file: notebooks/lab3
+    title: Lab 3 - Forward and Backward Propagation
+  - file: notebooks/lab4
+    title: Lab 4 - PyTorch Linear Regression
+  - file: notebooks/lab5
+    title: Lab 5 - PyTorch Tensor Basics
+  - file: notebooks/lab6
+    title: Lab 6 - CNN Architecture
