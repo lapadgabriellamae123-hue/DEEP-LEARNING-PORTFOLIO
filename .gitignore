@@ -1,0 +1,13 @@
+# Jupyter Book build output (regenerated locally; published separately to gh-pages via ghp-import)
+_build/
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
+
+# Python
+__pycache__/
+*.pyc
+
+# OS / editor cruft
+.DS_Store
+.vscode/
