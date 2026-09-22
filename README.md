@@ -2,7 +2,7 @@
 
 My personal Data Science portfolio for DS Elective 4, built with [Jupyter Book](https://jupyterbook.org/) and published through GitHub Pages.
 
-**Live site:** https://YOUR-USERNAME.github.io/ds-portfolio/ *(update after you publish)*
+**Live site:** https://lapadgabriellamae123-hue.github.io/DEEP-LEARNING-PORTFOLIO/
 
 ## Contents
 
