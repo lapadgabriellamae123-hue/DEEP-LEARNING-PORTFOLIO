@@ -1,0 +1,16 @@
+version: 1
+
+project:
+  title: "My Data Science Portfolio"
+  description: "Gabriella Mae Lapad's Data Science learning portfolio"
+
+  toc:
+    - file: index.md
+    - file: notebooks/lab2.ipynb
+    - file: notebooks/lab3.ipynb
+    - file: notebooks/lab4.ipynb
+    - file: notebooks/lab5.ipynb
+    - file: notebooks/lab6.ipynb
+
+site:
+  template: book-theme
