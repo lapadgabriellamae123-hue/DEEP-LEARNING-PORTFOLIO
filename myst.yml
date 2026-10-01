@@ -18,6 +18,8 @@ project:
       title: "Lab 5 - PyTorch Tensor Basics"
     - file: notebooks/lab6.ipynb
       title: "Lab 6 - CNN Architecture"
+    - file: notebooks/lab7.ipynb
+      title: "Lab 7 - Inference"
 
 site:
   template: book-theme
