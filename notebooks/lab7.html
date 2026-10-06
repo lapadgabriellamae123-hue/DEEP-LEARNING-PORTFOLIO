@@ -192,8 +192,14 @@
   
   
   
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="My Data Science Portfolio - Home"/>
+    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="My Data Science Portfolio - Home"/>
   
-    <p class="title logo__title">My Data Science Portfolio</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -422,6 +428,7 @@
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-7-putting-model-complexity-and-performance-side-by-side">Step 7 — Putting model complexity and performance side by side</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-8-visualizing-the-comparison">Step 8 — Visualizing the comparison</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-9-confusion-matrices">Step 9 — Confusion matrices</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-10-checking-what-the-models-predicted-when-they-were-wrong">Step 10 — Checking what the models predicted when they were “wrong”</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#my-analysis-and-conclusion">My analysis and conclusion</a></li>
 </ul>
             </nav>
@@ -555,7 +562,7 @@ Torch version: 2.11.0+cpu
 <li><p><code class="docutils literal notranslate"><span class="pre">coffee_mug</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">laptop</span></code></p></li>
 </ul>
-<p>I collected about 15–20 images per class (a mix of my own phone photos and a few clearly-licensed reference images), and organized them like this, which is the standard layout for an image classification folder:</p>
+<p>I collected 5 images per class (a mix of my own phone photos and a few clearly-licensed reference images), and organized them like this, which is the standard layout for an image classification folder:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>dataset/
 ├── golden_retriever/
 │   ├── img001.jpg
@@ -1582,19 +1589,56 @@ Running inference with EfficientNetB0 ...
 </div>
 </div>
 </section>
+<section id="step-10-checking-what-the-models-predicted-when-they-were-wrong">
+<h2>Step 10 — Checking what the models predicted when they were “wrong”<a class="headerlink" href="#step-10-checking-what-the-models-predicted-when-they-were-wrong" title="Link to this heading">#</a></h2>
+<p>Every model scored 0/5 on <code class="docutils literal notranslate"><span class="pre">laptop</span></code>, and all errors were predictions <em>outside</em> my 5 classes. This cell prints what the model predicted for each miss so I can explain it in my analysis.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Quick check: what did each model actually predict for the images it got "wrong"?</span>
+<span class="c1"># (Uses ResNet18 as an example -- change cfg to look at another model.)</span>
+<span class="n">cfg</span> <span class="o">=</span> <span class="n">MODEL_CONFIGS</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">weights</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">"weights"</span><span class="p">]</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">CustomImageDataset</span><span class="p">(</span><span class="n">DATASET_ROOT</span><span class="p">,</span> <span class="n">CLASS_FOLDERS</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">weights</span><span class="o">.</span><span class="n">transforms</span><span class="p">())</span>
+<span class="n">loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">BATCH_SIZE</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">"builder"</span><span class="p">](</span><span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">)</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+
+<span class="n">idx</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+    <span class="k">for</span> <span class="n">images</span><span class="p">,</span> <span class="n">labels</span> <span class="ow">in</span> <span class="n">loader</span><span class="p">:</span>
+        <span class="n">preds</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">images</span><span class="p">)</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">true_idx</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">labels</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span> <span class="n">preds</span><span class="p">):</span>
+            <span class="n">true_name</span> <span class="o">=</span> <span class="n">CLASS_FOLDERS</span><span class="p">[</span><span class="n">true_idx</span><span class="p">]</span>
+            <span class="n">pred_label</span> <span class="o">=</span> <span class="n">imagenet_categories</span><span class="p">[</span><span class="n">p</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">IMAGENET_LABEL_TO_CLASS</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">pred_label</span><span class="p">)</span> <span class="o">!=</span> <span class="n">true_name</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">dataset</span><span class="o">.</span><span class="n">samples</span><span class="p">[</span><span class="n">idx</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="si">:</span><span class="s2">&lt;20</span><span class="si">}</span><span class="s2"> true=</span><span class="si">{</span><span class="n">true_name</span><span class="si">:</span><span class="s2">&lt;18</span><span class="si">}</span><span class="s2"> predicted='</span><span class="si">{</span><span class="n">pred_label</span><span class="si">}</span><span class="s2">'"</span><span class="p">)</span>
+            <span class="n">idx</span> <span class="o">+=</span> <span class="mi">1</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
 <section id="my-analysis-and-conclusion">
 <h2>My analysis and conclusion<a class="headerlink" href="#my-analysis-and-conclusion" title="Link to this heading">#</a></h2>
-<p><em>(This section needs my actual numbers from running the notebook above — I’m filling in the structure and the general reasoning now, and will plug in my real results and adjust any claims that don’t match what I actually observed.)</em></p>
-<p><strong>Which model performed best, and why I think that happened.</strong> Based on the comparison table, <strong>[Model Name]</strong> had the highest accuracy/F1 at <strong>[X.XX]</strong>, while <strong>[Model Name]</strong> performed the worst at <strong>[X.XX]</strong>. A few architectural reasons this kind of gap commonly shows up between these specific models:</p>
+<p><strong>Overall results.</strong> All five models were evaluated as-is on my 25-image custom dataset (5 images per class). <strong>ResNet18</strong> performed best (accuracy 0.72, macro-F1 0.75), followed by <strong>MobileNetV2</strong> and <strong>DenseNet121</strong> (accuracy 0.68, macro-F1 0.71 each), while <strong>VGG16</strong> and <strong>EfficientNetB0</strong> were tied for last (accuracy 0.64, macro-F1 0.67). Macro-precision was 0.80 for every model, and macro-recall equals accuracy because my classes are balanced.</p>
+<p><strong>What actually drove the results.</strong> The confusion matrices show that the gap between models is much smaller and more specific than the headline numbers suggest:</p>
 <ul class="simple">
-<li><p><strong>ResNet18 vs. VGG16</strong> — ResNet’s skip (residual) connections let gradients flow through the network more easily during the original ImageNet training, which generally lets it learn more robust features than VGG’s older, purely sequential stack of convolutions, despite ResNet18 having far fewer parameters than VGG16. If ResNet18 outperformed VGG16 in my results, that’s consistent with this.</p></li>
-<li><p><strong>MobileNetV2</strong> is deliberately designed to be small and fast (depthwise-separable convolutions, fewer parameters) for on-device use. I’d expect it to have noticeably fewer parameters and faster inference time than the others, possibly at some cost to accuracy — my “complexity vs. accuracy” chart should show whether that trade-off actually shows up in my results.</p></li>
-<li><p><strong>DenseNet121</strong>’s dense connections (every layer sees every previous layer’s output) tend to make it parameter-efficient relative to its depth, and often competitive with larger networks.</p></li>
-<li><p><strong>EfficientNetB0</strong> uses compound scaling to balance depth, width, and input resolution together rather than tuning them separately — it’s often one of the more accuracy-per-parameter efficient architectures in this kind of comparison, but it’s also the most sensitive to getting its expected preprocessing/input size exactly right.</p></li>
+<li><p>Every model classified all 5 <code class="docutils literal notranslate"><span class="pre">golden_retriever</span></code>, <code class="docutils literal notranslate"><span class="pre">persian_cat</span></code>, and <code class="docutils literal notranslate"><span class="pre">sports_car</span></code> images correctly.</p></li>
+<li><p>Every model got 0 of 5 <code class="docutils literal notranslate"><span class="pre">laptop</span></code> images correct.</p></li>
+<li><p>The only thing that separated the models was <code class="docutils literal notranslate"><span class="pre">coffee_mug</span></code>: ResNet18 got 3/5, MobileNetV2 and DenseNet121 got 2/5, and VGG16 and EfficientNetB0 got 1/5.</p></li>
+<li><p>No model ever confused one of my 5 classes for another. Every error was a prediction of some <em>other</em> ImageNet category, which is why precision is identical (0.80) for all models: it is 1.0 on four classes and 0 on <code class="docutils literal notranslate"><span class="pre">laptop</span></code>, which no model ever predicted.</p></li>
 </ul>
-<p><strong>Input requirements.</strong> My complexity table above shows each model’s expected input resolution — these aren’t all identical across architectures, which is exactly why I built a <em>separate</em> <code class="docutils literal notranslate"><span class="pre">DataLoader</span></code> per model using that model’s own <code class="docutils literal notranslate"><span class="pre">weights.transforms()</span></code>, rather than reusing one fixed transform for all five. If I had used a single transform for every model, whichever models expect a different input size/normalization than what I used would likely have shown artificially worse performance, for reasons that have nothing to do with the model’s actual capability.</p>
-<p><strong>Suitability for my specific dataset.</strong> My photos are real-world snapshots (different lighting, backgrounds, angles) rather than the clean, curated ImageNet photos these models were trained on. I’d expect this “domain gap” to hurt all 5 models somewhat, but possibly hurt the smaller/lighter models (like MobileNetV2) more than the larger, higher-capacity ones, since bigger models often generalize a bit better to messier real-world conditions. [Confirm this against what I actually observed — if it’s the opposite, that’s also worth noting and trying to explain, e.g. maybe my golden retriever/laptop photos happened to be unusually clean and well-lit compared to my sports car photos.]</p>
-<p><strong>Overall conclusion.</strong> [Write 2–4 sentences here once I have real numbers: which model I’d actually pick if I had to deploy one of these five for a task like this, and why — balancing accuracy against parameter count/inference speed, not just picking whichever had the single highest accuracy number.]</p>
+<p>This tells me the errors are mostly not about one architecture being “smarter” than another. The <code class="docutils literal notranslate"><span class="pre">laptop</span></code> failure is shared by all five models, so it points to my setup rather than the models. My most likely explanation is that ImageNet has several near-duplicate categories (for example a separate <code class="docutils literal notranslate"><span class="pre">notebook</span></code> class alongside <code class="docutils literal notranslate"><span class="pre">laptop</span></code>, and <code class="docutils literal notranslate"><span class="pre">cup</span></code>/<code class="docutils literal notranslate"><span class="pre">espresso</span></code>-type classes near <code class="docutils literal notranslate"><span class="pre">coffee</span> <span class="pre">mug</span></code>), so a model can give a perfectly sensible answer that my strict one-label mapping counts as wrong. [Confirm this with the check cell below and adjust this sentence to match what the models actually predicted.]</p>
+<p><strong>Architecture and complexity.</strong></p>
+<ul class="simple">
+<li><p><strong>ResNet18 vs. VGG16:</strong> ResNet18 beat VGG16 (18/25 vs. 16/25) despite having about 12x fewer parameters (11.69M vs. 138.36M). This is consistent with residual connections giving a more efficient design than VGG’s plain stack of convolutions, but the margin is only 2 images, so I treat it as suggestive, not conclusive.</p></li>
+<li><p><strong>Parameters did not predict accuracy.</strong> VGG16, the largest model, was tied for worst, and MobileNetV2, the smallest (3.50M), was tied for second. More parameters did not buy better accuracy here.</p></li>
+<li><p><strong>Speed:</strong> VGG16 was by far the slowest (19.57 s, 1.28 images/s on CPU), which fits its huge parameter count and heavy full-resolution convolutions. MobileNetV2 was the fastest (2.16 s, 11.57 images/s), consistent with its depthwise-separable convolutions being designed for cheap computation. DenseNet121 was slower than its small parameter count suggests (5.71 s), likely because dense connectivity repeatedly concatenates feature maps, which is costly in memory and computation even when the parameter count is low.</p></li>
+<li><p><strong>EfficientNetB0</strong> was tied for the lowest accuracy even though it is a modern, efficient design. I can’t claim a single cause from this data; with only 5 mug images, one image changes its score by 4 percentage points.</p></li>
+</ul>
+<p><strong>Input requirements.</strong> All five models use the same 224x224 crop size (shown in my complexity table), so input resolution was not a source of difference between them. I still built a separate <code class="docutils literal notranslate"><span class="pre">DataLoader</span></code> for each model using its own <code class="docutils literal notranslate"><span class="pre">weights.transforms()</span></code>, so any smaller preprocessing differences (such as resize and interpolation settings) were handled correctly rather than forced to be identical.</p>
+<p><strong>Suitability for my dataset.</strong> The three classes with distinct, well-known ImageNet identities (dog breed, cat breed, sports car) were solved perfectly by every model, so my real-world photos did not cause a general domain-gap problem. The difficulty was concentrated in classes where ImageNet’s label set is ambiguous or overlapping (<code class="docutils literal notranslate"><span class="pre">coffee_mug</span></code>, <code class="docutils literal notranslate"><span class="pre">laptop</span></code>). Evaluating “as-is” against exact ImageNet labels is therefore harsh on classes that have close neighbors in the 1,000-category list.</p>
+<p><strong>Limitations.</strong> With 25 images, each image is worth 4 percentage points of accuracy, and the whole ranking comes from 2 to 3 mug images, so the ranking between models is not statistically reliable. Inference times were measured once on CPU and include image loading and preprocessing, so they are rough comparisons, not benchmarks.</p>
+<p><strong>Overall conclusion.</strong> ResNet18 gave the best results in this experiment (accuracy 0.72, F1 0.75) at a moderate cost of 11.69M parameters and 3.65 s. If I had to deploy one of these five for a task like this, I would choose <strong>MobileNetV2</strong>: it was within one image of ResNet18 (0.68 vs. 0.72) with about 3x fewer parameters and the fastest inference, which is a better accuracy-to-cost trade-off than VGG16, whose 138M parameters and 19.57 s runtime bought no accuracy advantage. If maximum accuracy mattered most, I would pick ResNet18. For a more trustworthy comparison, I would use more images per class and either accept sensible synonym classes (for example <code class="docutils literal notranslate"><span class="pre">laptop</span></code> and <code class="docutils literal notranslate"><span class="pre">notebook</span></code>) or fine-tune each model on my own labels.</p>
 </section>
 </section>
 
@@ -1665,6 +1709,7 @@ Running inference with EfficientNetB0 ...
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-7-putting-model-complexity-and-performance-side-by-side">Step 7 — Putting model complexity and performance side by side</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-8-visualizing-the-comparison">Step 8 — Visualizing the comparison</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-9-confusion-matrices">Step 9 — Confusion matrices</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-10-checking-what-the-models-predicted-when-they-were-wrong">Step 10 — Checking what the models predicted when they were “wrong”</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#my-analysis-and-conclusion">My analysis and conclusion</a></li>
 </ul>
   </nav></div>
