@@ -3,7 +3,7 @@
 
 title: My Data Science Portfolio
 author: Gabriella Mae Lapad
-logo: ""
+logo: "images/logo.png"
 
 # Force re-execution of notebooks on each build?
 # See https://jupyterbook.org/content/execute.html
@@ -36,3 +36,12 @@ html:
   extra_navbar: "Built with Jupyter Book"
 
 exclude_patterns: [_build, '.venv', '**.ipynb_checkpoints']
+
+ 
+sphinx:
+  extra_extensions:
+    - sphinx_design
+  config:
+    html_favicon: favicon.ico   # put a favicon.ico (or .png) in your repo root, or delete this line
+    html_css_files:
+      - custom.css
