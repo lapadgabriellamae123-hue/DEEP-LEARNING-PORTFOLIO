@@ -11,3 +11,5 @@ chapters:
     title: Lab 5 - PyTorch Tensor Basics
   - file: notebooks/lab6
     title: Lab 6 - CNN Architecture
+  - file: notebooks/lab7
+    title: Lab 7 - Image Classification with Pre-trained Models
