@@ -1,0 +1,24 @@
+/* Change #a64dff to any hex color you like -- this controls links,
+   the active sidebar item, and buttons across the whole site. */
+:root {
+  --pst-color-primary: #a64dff;
+  --pst-color-link: #a64dff;
+  --pst-color-link-hover: #8a2be2;
+}
+
+html[data-theme="dark"] {
+  --pst-color-primary: #c792ff;
+  --pst-color-link: #c792ff;
+  --pst-color-link-hover: #d9b3ff;
+}
+
+/* Optional: slightly rounder, nicer-looking project cards from sphinx-design */
+.sd-card {
+  border-radius: 12px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.sd-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
